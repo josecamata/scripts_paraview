@@ -12,7 +12,7 @@ Este script processa arquivos XDMF e extrai informações sobre a distância má
 1. Ajuste o caminho do diretório e dos arquivos XDMF, caso necessário.
 2. Execute o script no terminal:
    ```bash
-   python distance_block.py
+   pvpython distance_flow.py
    ```
 3. O script processará os arquivos e gerará um arquivo CSV com os resultados.
 
