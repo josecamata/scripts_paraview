@@ -13,11 +13,21 @@ Este script processa arquivos XDMF e extrai dados do campo de sedimento (`s_dep_
 ## Como Executar
 O script deve ser chamado com dois argumentos correspondentes ao tempo inicial e final:
 ```bash
-python extrai_dep.py <initial_time> <final_time>
+pvpython extract_deposition.py <initial_time> <final_time>
 ```
 Exemplo de execução:
 ```bash
-python extrai_dep.py 1 50
+pvpython extract_deposition.py 1 10
+```
+
+**Importante:** Para simulaçãoes com muitos passos de tempo, é necessário executar o scripts por etapas. Por exemplo, para simulação com 50 timesteps, execute usando três chamadas. Isso evitará possivels *crash* da execução devido ao consumo de memória. 
+
+Exemplo de execução:
+```bash
+pvpython extract_deposition.py 1 15
+pvpython extract_deposition.py 16 30
+pvpython extract_deposition.py 31 50
+
 ```
 
 ## Estrutura do Script
