@@ -14,4 +14,5 @@
 
 ### Comparação de coordenadas nodais
 - **Script**: [compare_hdf5.py](./scripts/compare_hdf5.py)
+- Veja como usar [aqui](./docs/compare_hdf5.md)
 
