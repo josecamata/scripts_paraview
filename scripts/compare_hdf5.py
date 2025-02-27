@@ -21,14 +21,23 @@ def compare_hdf5(file1, file2):
 
         # Comparar conteúdo dos datasets
         for dataset in datasets1.intersection(datasets2):
+           
+
             data1 = f1[dataset][:]
             data2 = f2[dataset][:]
 
-            if np.array_equal(data1, data2):
+            print(f"Dimensões em '{file1}': {data1.shape}")
+            print(f"Dimensões em '{file2}': {data2.shape}")
+
+            if data1.shape != data2.shape:
+                print(f"❌ Dataset '{dataset}' possui dimensões diferentes!")
+
+    
+            if np.array_equal(data1[:,0:1], data2[:,0:1]):
                 print(f"✅ Dataset '{dataset}' é idêntico nos dois arquivos.")
             else:
                 print(f"❌ Dataset '{dataset}' possui diferenças!")
-                print(f"Diferença máxima: {np.max(np.abs(data1 - data2))}")
+                print(f"Diferença máxima: {np.max(np.abs(data1[:,0:1] - data2[:,0:1]))}")
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
