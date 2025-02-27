@@ -59,7 +59,7 @@ def ExtractDep(file_path: str):
     return time, s_dep_01
 
 if len(sys.argv) < 6:
-    print("❌ Erro: Argumentos insuficientes! Use: python extrai_dep.py <dir_path> <prefix_file_name> <initial_time> <final_time> <hdf5_output>")
+    print("❌ Erro: Argumentos insuficientes! Use: python extract_deposition.py <dir_path> <prefix_file_name> <initial_time> <final_time> <hdf5_output>")
     sys.exit(1)
 
 dir_path         = sys.argv[1]

@@ -1,5 +1,6 @@
 from paraview.simple import *
 import numpy as np
+import sys
 
 def GetDataFromXDMFFile(file_path: str):
 
@@ -92,23 +93,24 @@ def GetDataFromXDMFFile(file_path: str):
 
     return time, max_distance_x, largura
 
+if(len(sys.argv) < 4):
+    print("Usage: python distance_flow.py <dir_path> <prefix_file_name> <csv_file>")
+    sys.exit(1)
 
-# 🔹 Defina o caminho do arquivo XDMF (alterar se necessário)
-dir_path  = "/media/camata/E4E02587E02560D2/DadosSimulacao/tanque_p1/"
-file_path =  "/media/camata/E4E02587E02560D2/DadosSimulacao/tanque_p1/tanque_00041.xmf"
-# executar para todos os timessteps
-csv_file  =  f"{dir_path}tanque_p1.csv"
+dir_path         = sys.argv[1] # diretório onde estão os arquivos
+prefix_file_name = sys.argv[2] # prefixo do nome do arquivo xdmf 
+csv_file         = sys.argv[3] # nome do arquivo csv de saida
 
 # write a csv file
 with open(csv_file, 'w') as f:
-    f.write("time,max_distance_x,largura_y\n")
+    f.write("time,distance_x,largura_y\n")
 initial_time = 1
 final_time   = 41
-for time in range(initial_time, final_time):
-    file_path = f"{dir_path}tanque_{str(time).zfill(5)}.xmf"
+for time in range(initial_time, final_time + 1):
+    file_path = f"{dir_path}{prefix_file_name}_{str(time).zfill(5)}.xmf"
     print(file_path)
-    time, max_distance_x, largura = GetDataFromXDMFFile(file_path)
+    time, distance_x, largura_y = GetDataFromXDMFFile(file_path)
     # write a csv file
     with open('distance_block.csv', 'a') as f:
-        f.write(f"{time},{max_distance_x},{largura}\n")
+        f.write(f"{time},{distance_x},{largura_y}\n")
 

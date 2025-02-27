@@ -33,11 +33,11 @@ def compare_hdf5(file1, file2):
                 print(f"❌ Dataset '{dataset}' possui dimensões diferentes!")
 
     
-            if np.array_equal(data1[:,0:1], data2[:,0:1]):
+            if np.array_equal(data1[:,:2], data2[:,:2]):
                 print(f"✅ Dataset '{dataset}' é idêntico nos dois arquivos.")
             else:
                 print(f"❌ Dataset '{dataset}' possui diferenças!")
-                print(f"Diferença máxima: {np.max(np.abs(data1[:,0:1] - data2[:,0:1]))}")
+                print(f"Diferença máxima: {np.max(np.abs(data1[:,:2] - data2[:,:2]))}")
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
