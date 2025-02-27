@@ -74,6 +74,7 @@ Os dados podem ser carregados no Python com:
 import h5py
 with h5py.File("TANQUE_P1_DEP.h5", "r") as f:
     print(f["data"].shape)  # Exibe a forma dos dados
+    dep = f["data"]
 ```
 
 
