@@ -85,7 +85,10 @@ with h5py.File(hdf5_file, "a") as h5f:
         if time == 1:
             # Salvar apenas a geometria do primeiro timestep
             if "nodes" not in h5f:
-                h5f.create_dataset("nodes", data=node_coords)
+                h5f.create_dataset("nodes", data=node_coords, 
+                                    compression="gzip",  # Aplica compressão
+                                    compression_opts=4,    # Nível de compressão (1-9)
+                                    chunks=True)           # Ativa chunking)
                 print("Geometria inicial salva no HDF5.")
         else:
             # Verificar se as coordenadas mudaram

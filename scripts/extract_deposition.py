@@ -86,7 +86,11 @@ with h5py.File(hdf5_file, "a") as h5f:
             if existing_data.shape[0] == s_dep.shape[0]:
                 new_data = np.hstack((existing_data[:], s_dep))
                 del h5f["data"]  # Remove dataset antigo
-                h5f.create_dataset("data", data=new_data)
+                h5f.create_dataset("data", 
+                                   data=new_data, 
+                                   compression="gzip",    # Aplica compressão
+                                   compression_opts=4,   # Nível de compressão (1-9)
+                                   chunks=True)          # Ativa chunking)
             else:
                 print(f" Tamanho incompatível no timestep {time}. Pulando...")
         else:
