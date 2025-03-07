@@ -58,22 +58,22 @@ def ExtractDep(file_path: str):
 
     return time, s_dep_01
 
-if len(sys.argv) < 3:
-    print("❌ Erro: Argumentos insuficientes! Use: python extrai_dep.py <initial_time> <final_time>")
+if len(sys.argv) < 6:
+    print("❌ Erro: Argumentos insuficientes! Use: python extract_deposition.py <dir_path> <prefix_file_name> <initial_time> <final_time> <hdf5_output>")
     sys.exit(1)
-    
-initial_time = int(sys.argv[1])
-final_time   = int(sys.argv[2])
 
-# 🔹 Defina o caminho do arquivo XDMF (alterar se necessário)
-dir_path  = "/media/camata/E4E02587E02560D2/DadosSimulacao/tanque_p1/"
-hdf5_file = "TANQUE_P1_DEP.h5"
+dir_path         = sys.argv[1]
+prefix_file_name = sys.argv[2]
+initial_time     = int(sys.argv[3])
+final_time       = int(sys.argv[4])
+hdf5_file        = sys.argv[5]
 
 # Criar/abrir arquivo HDF5
 with h5py.File(hdf5_file, "a") as h5f:
     for time in range(initial_time, final_time + 1):
-        file_path = f"{dir_path}tanque_{str(time).zfill(5)}.xmf"
-        print(f"🔍 Processando: {file_path}")
+        file_path = f"{dir_path}{prefix_file_name}_{str(time).zfill(5)}.xmf"
+    
+        # print(f"🔍 Processando: {file_path}")
 
         time, s_dep = ExtractDep(file_path)  # Função para extrair os dados do arquivo XDMF
 
@@ -86,7 +86,11 @@ with h5py.File(hdf5_file, "a") as h5f:
             if existing_data.shape[0] == s_dep.shape[0]:
                 new_data = np.hstack((existing_data[:], s_dep))
                 del h5f["data"]  # Remove dataset antigo
-                h5f.create_dataset("data", data=new_data)
+                h5f.create_dataset("data", 
+                                   data=new_data, 
+                                   compression="gzip",    # Aplica compressão
+                                   compression_opts=4,   # Nível de compressão (1-9)
+                                   chunks=True)          # Ativa chunking)
             else:
                 print(f" Tamanho incompatível no timestep {time}. Pulando...")
         else:

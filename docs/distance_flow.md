@@ -12,8 +12,13 @@ Este script processa arquivos XDMF e extrai informações sobre a distância má
 1. Ajuste o caminho do diretório e dos arquivos XDMF, caso necessário.
 2. Execute o script no terminal:
    ```bash
-   pvpython distance_flow.py
+   pvpython distance_flow.py <dir-path> <prefix-file-name> <csv-file>
    ```
+onde
+ - *dir-path*: diretório que contém os arquivos xdmf
+ - *prefix-file-name*: prefixo do nome do arquivo xdmf. Por exemplo, para o arquivo *tanque_p1_001_00001.xmf*, o prefixo será *tanque_p1*.
+  - *csv-file*: nome do arquivo de saida no formato csv.
+
 3. O script processará os arquivos e gerará um arquivo CSV com os resultados.
 
 ## Estrutura do Script
@@ -42,7 +47,7 @@ Esta função processa um arquivo XDMF e extrai informações sobre a distância
 ## Saída
 - O script gera um arquivo CSV contendo:
   ```csv
-  time,max_distance_x,largura_y
+  time,distance_x,largura_y
   1,12.5,5.3
   2,13.0,5.5
   ...

@@ -5,6 +5,12 @@ import sys
 import gc
 import h5py
 
+#
+# Função para extrair as coordenadas dos nós de um arquivo XDMF
+# @param file_path: Caminho do arquivo XDMF
+# @return node_coords: Coordenadas dos nós
+#
+
 def ExtractNodeCoordinates(file_path: str):
     print(f"📂 Carregando arquivo XDMF: {file_path}")
     
@@ -53,17 +59,19 @@ def ExtractNodeCoordinates(file_path: str):
     return node_coords
 
 
-if len(sys.argv) < 3:
-    print("❌ Erro: Argumentos insuficientes! Use: python extrai_nos.py <initial_time> <final_time>")
+if(len(sys.argv) < 4):
+    print("Usage: python extract_nodes.py <dir_path> <prefix_file_name> <hdf5_file> [initial_time] [final_time]")
     sys.exit(1)
+elif(len(sys.argv) == 4):
+    initial_time = 1
+    final_time = 1
+else:
+    initial_time = int(sys.argv[4])
+    final_time = int(sys.argv[5])
 
-initial_time = int(sys.argv[1])
-final_time = int(sys.argv[2])
-
-# Definir diretório e arquivo HDF5
-dir_path = "/media/camata/E4E02587E02560D2/DadosSimulacao/tanque_p1/"
-hdf5_file = "TANQUE_P1_NOS.h5"
-
+dir_path          = sys.argv[1] # diretório onde estão os arquivos
+prefix_file_name  = sys.argv[2] # prefixo do nome do arquivo xdmf 
+hdf5_file         = sys.argv[3] # nome do arquivo csv de saida
 
 
 # Criar/abrir arquivo HDF5
@@ -77,7 +85,10 @@ with h5py.File(hdf5_file, "a") as h5f:
         if time == 1:
             # Salvar apenas a geometria do primeiro timestep
             if "nodes" not in h5f:
-                h5f.create_dataset("nodes", data=node_coords)
+                h5f.create_dataset("nodes", data=node_coords, 
+                                    compression="gzip",  # Aplica compressão
+                                    compression_opts=4,    # Nível de compressão (1-9)
+                                    chunks=True)           # Ativa chunking)
                 print("Geometria inicial salva no HDF5.")
         else:
             # Verificar se as coordenadas mudaram
