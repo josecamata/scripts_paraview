@@ -109,6 +109,6 @@ for time in range(initial_time, final_time):
     print(file_path)
     time, max_distance_x, largura = GetDataFromXDMFFile(file_path)
     # write a csv file
-    with open('distance_block.csv', 'a') as f:
+    with open(csv_file, 'a') as f:
         f.write(f"{time},{max_distance_x},{largura}\n")
 
