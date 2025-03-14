@@ -94,7 +94,7 @@ def GetDataFromXDMFFile(file_path: str):
     return time, max_distance_x, largura
 
 if(len(sys.argv) < 4):
-    print("Usage: python distance_flow.py <dir_path> <prefix_file_name> <csv_file>")
+    print("Usage: pypython distance_flow.py <dir_path> <prefix_file_name> <csv_file>")
     sys.exit(1)
 
 dir_path         = sys.argv[1] # diretório onde estão os arquivos
