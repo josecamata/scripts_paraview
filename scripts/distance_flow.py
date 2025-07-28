@@ -112,5 +112,5 @@ for time in range(initial_time, final_time + 1):
     time, distance_x, largura_y = GetDataFromXDMFFile(file_path)
     # write a csv file
     with open(csv_file, 'a') as f:
-        f.write(f"{time},{distance_x},{largura}\n")
+        f.write(f"{time},{distance_x},{largura_y}\n")
 
